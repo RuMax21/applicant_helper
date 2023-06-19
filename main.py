@@ -22,21 +22,23 @@ def main_menu():
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('information_about_admission_commission'))
 def main_menu_callback(call):
-    markup = submenu('information_about_admission_commission')
-    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                          text='Выберите интересующую информацию:', reply_markup=markup)
+	markup = submenu('information_about_admission_commission')
+	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+							text='Выберите интересующую информацию:', reply_markup=markup)
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('working_time'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_WORK_SCHEDULE))
 def work_schedule_callback(call):
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_WORK_SCHEDULE)
 	markup = submenu('information_about_admission_commission')
 	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
 						text=messages.WORK_SCHEDULE, reply_markup=create_button_one_back())
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('submission_methods'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_SUBMISSION_METHOD))
 def submission_methods_callback(call):
-    markup = submission_documents_button() 
-    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                          text='Подача документов', reply_markup=markup)
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_SUBMISSION_METHOD)
+	markup = submission_documents_button() 
+	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+						text='Подача документов', reply_markup=markup)
 
 def submission_documents_button():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
@@ -56,8 +58,9 @@ def address_of_receiving_callback(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
 	text=messages.ADDRESS_OF_RECEIVING_DOCUMENTS, parse_mode='Markdown', reply_markup=create_button_one_back())
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('exam_schedule'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_EXAM_SCHEDULE))
 def exam_schedule_callback(call):
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_EXAM_SCHEDULE)
 	markup = exam_schedule_buttons()
 	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Выберите', reply_markup=markup)
 
@@ -79,8 +82,9 @@ def exam_schedule_buttons():
 		telebot.types.InlineKeyboardButton(messages.TEXT_BUTTON_BACK, callback_data='information_about_admission_commission'))
 	return markup
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('list_training_areas'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_LIST_TRAINING_AREAS))
 def list_training_areas_callback(call):
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_LIST_TRAINING_AREAS)
 	markup = list_training_areas_buttons()
 	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
 		text='Выберите уровень образования', reply_markup=markup)
@@ -102,8 +106,9 @@ def list_training_areas_buttons():
 			)
 	return markup
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('important_date'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_MAIN_DATE))
 def main_date_callback(call):
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_MAIN_DATE)
 	markup = main_date_buttons()
 	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
 		text='Выберите уровень образования', reply_markup=markup)
@@ -123,8 +128,9 @@ def main_date_buttons():
 			)
 	return markup
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_DOCUMENTS_FOR_ADMISSION))
 def documents_callback(call):
+	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_DOCUMENTS_FOR_ADMISSION)
 	markup = documents_buttons()
 	bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                           text='Выберите подкатегорию:', reply_markup=markup)
@@ -137,6 +143,10 @@ def documents_buttons():
 	telebot.types.InlineKeyboardButton('СПК', callback_data='documents_for_admission_spk'),
 	telebot.types.InlineKeyboardButton('Назад', callback_data='information_about_admission_commission'))
 	return markup
+
+# @bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_COST_OF_STUDY))
+# def cost_of_study_callback(call):
+# 	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_COST_OF_STUDY)
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission_bac'))
 def bac_documents(call):
@@ -161,13 +171,13 @@ def spk_documents(call):
 def submenu(category):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     if category == 'information_about_admission_commission':
-        markup.add(telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_WORK_SCHEDULE, callback_data='working_time'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_SUBMISSION_METHOD, callback_data='submission_methods'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_LIST_TRAINING_AREAS, callback_data='list_training_areas'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_DOCUMENTS_FOR_ADMISSION, callback_data='documents_for_admission'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_EXAM_SCHEDULE, callback_data='exam_schedule'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_MAIN_DATE, callback_data='important_date'),
-                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_COST_OF_STUDY, url=messages.COST_OF_STUDY),
+        markup.add(telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_WORK_SCHEDULE, callback_data=messages.CALLBACK_BUTTON_WORK_SCHEDULE),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_SUBMISSION_METHOD, callback_data=messages.CALLBACK_BUTTON_SUBMISSION_METHOD),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_LIST_TRAINING_AREAS, callback_data=messages.CALLBACK_BUTTON_LIST_TRAINING_AREAS),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_DOCUMENTS_FOR_ADMISSION, callback_data=messages.CALLBACK_BUTTON_DOCUMENTS_FOR_ADMISSION),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_EXAM_SCHEDULE, callback_data=messages.CALLBACK_BUTTON_EXAM_SCHEDULE),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_MAIN_DATE, callback_data=messages.CALLBACK_BUTTON_MAIN_DATE),
+                   telebot.types.InlineKeyboardButton(messages.MENU_BUTTON_COST_OF_STUDY, url=messages.COST_OF_STUDY_LINK),
         		   telebot.types.InlineKeyboardButton(messages.TEXT_BUTTON_BACK, callback_data='btn_back'))
     elif category == 'information_about_current_position_in_rating':
         markup.add(telebot.types.InlineKeyboardButton('', callback_data=''),

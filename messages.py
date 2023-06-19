@@ -43,4 +43,12 @@ MAIN_DATE_BAC_SPEC = "https://cchgeu.ru/abiturientu/bak-spec/vazhnye-daty/"
 MAIN_DATE_MAG = "https://cchgeu.ru/abiturientu/mag/vazhnye-daty/"
 MAIN_DATE_ASP = "https://cchgeu.ru/abiturientu/asp/vazhnye-daty/"
 
-COST_OF_STUDY = "https://cchgeu.ru/upload/abiturientu/docs/stoimost-obuchenia-2023-2024.pdf"
+COST_OF_STUDY_LINK = "https://cchgeu.ru/upload/abiturientu/docs/stoimost-obuchenia-2023-2024.pdf"
+
+CALLBACK_BUTTON_WORK_SCHEDULE = 'working_time'
+CALLBACK_BUTTON_SUBMISSION_METHOD = 'submission_methods'
+CALLBACK_BUTTON_LIST_TRAINING_AREAS = 'list_training_areas'
+CALLBACK_BUTTON_DOCUMENTS_FOR_ADMISSION = 'documents_for_admission'
+CALLBACK_BUTTON_EXAM_SCHEDULE = 'exam_schedule'
+CALLBACK_BUTTON_MAIN_DATE = 'important_date'
+CALLBACK_BUTTON_COST_OF_STUDY = 'cost_of_study'
