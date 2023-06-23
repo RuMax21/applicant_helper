@@ -1,16 +1,14 @@
-import logging
+import db_management
 
 def analytics(func: callable):
-	users = set()
 	def analytics_wrapper(message):
 		
-		if message.chat.id not in users:
-			users.add(message.chat.id)
-			print(users)
-		
+		if not (db_management.is_user_checking(str(message.chat.id))):
+			db_management.adding_new_user(str(message.chat.id))
 		return func(message)
 
 	return analytics_wrapper
 
 def function_call_statistics(user_id, function_name):
-	print(user_id, function_name)
+	print(1)
+	db_management.update_statistics(user_id, function_name)

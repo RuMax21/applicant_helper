@@ -9,13 +9,13 @@ MENU_BUTTON_EXAM_SCHEDULE = '🕑 Расписание вступительны�
 MENU_BUTTON_MAIN_DATE = '📅 Важные даты 📅'
 MENU_BUTTON_COST_OF_STUDY = '💵 Стоимость обучения 💵'
 
-WORK_SCHEDULE = '⏳ График работы: ⌛ \n \n Пн-Чт – 09:00 - 17:00 \n Пт – 09:00 - 16:00'
+WORK_SCHEDULE = '⏳ График работы: ⌛ \n \n Пн-Чт – 09:00 - 17:00 \n Пт – 09:00 - 16:00 \n  Сб - 10:00-13:00'
 
 ADDRESS_OF_RECEIVING_DOCUMENTS = '**🚙* Адрес **🚙* \n 394006, г. Воронеж, \n ул. 20-летия Октября, 84, \n к.1, ауд. 1002в, \n **☎* Телефон **☎* \n +7 (473) 271-53-15' + '\n \n' + '**🚙* Адрес **🚙* \n 394026, г. Воронеж, \n Московский пр-т, 14, \n ауд. 219 \n **☎* Телефон **☎* \n +7 (473) 246-40-67'
 
 SUBMIT_IN_PERSON = '🚙 Подать лично 🚙'
 POSTAL_SERVICE_OPERATORS = '✉ Через операторов почтовой связи общего пользования ✉'
-POSTAL_SERVICE_OPERATORS_LINK = "https://cchgeu.ru/abiturientu/bak-spec/podacha-dokumentov/pochtovye-adresa/"
+POSTAL_SERVICE_OPERATORS_LINK = " ❗ Подать документы через операторов почтовой связи общего" + "пользования можно по адресу: ❗ \n\n 394006, г. Воронеж, ул. 20-летия Октября, 84, Приемная " + "комиссия."
 IN_ELECTRONIC_FORM = '📧 В электронной форме 📧'
 IN_ELECTRONIC_FORM_LINK = "https://cchgeu.ru/abiturientu/bak-spec/podacha-dokumentov/v-elektronnoy-forme/"
 TEXT_BUTTON_BACK = '🔙 Назад'
@@ -52,3 +52,6 @@ CALLBACK_BUTTON_DOCUMENTS_FOR_ADMISSION = 'documents_for_admission'
 CALLBACK_BUTTON_EXAM_SCHEDULE = 'exam_schedule'
 CALLBACK_BUTTON_MAIN_DATE = 'important_date'
 CALLBACK_BUTTON_COST_OF_STUDY = 'cost_of_study'
+CALLBACK_BUTTON_TOTAL_REQUESTS = 'total_requests'
+CALLBACK_BUTTON_NUMBER_OF_USERS = 'number_of_users'
+CALLBACK_BUTTON_ = ''

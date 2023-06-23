@@ -6,7 +6,7 @@ import config
 import messages
 import analytics
 
-bot = telebot.TeleBot(config.TOKEN)
+bot = telebot.TeleBot(config.TOKEN_INFO)
 
 @bot.message_handler(commands=['start'])
 @analytics.analytics
@@ -46,7 +46,7 @@ def submission_documents_button():
 			telebot.types.InlineKeyboardButton(messages.SUBMIT_IN_PERSON,
 				callback_data='address_of_receiving'),
 			telebot.types.InlineKeyboardButton(messages.POSTAL_SERVICE_OPERATORS,
-				url=messages.POSTAL_SERVICE_OPERATORS_LINK),
+				callback_data='postal_service_operators'),
 			telebot.types.InlineKeyboardButton(messages.IN_ELECTRONIC_FORM,
 				url=messages.IN_ELECTRONIC_FORM_LINK),
 			telebot.types.InlineKeyboardButton(messages.TEXT_BUTTON_BACK, callback_data='information_about_admission_commission')
@@ -58,6 +58,12 @@ def address_of_receiving_callback(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
 	text=messages.ADDRESS_OF_RECEIVING_DOCUMENTS, parse_mode='Markdown', reply_markup=create_button_one_back())
 
+@bot.callback_query_handler(func=lambda call: call.data.startswith('postal_service_operators'))
+def postal_service_operators_callback(call):
+    bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
+	text=messages.POSTAL_SERVICE_OPERATORS_LINK, parse_mode='Markdown', reply_markup=create_button_one_back())
+
+
 @bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_EXAM_SCHEDULE))
 def exam_schedule_callback(call):
 	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_EXAM_SCHEDULE)
@@ -67,7 +73,7 @@ def exam_schedule_callback(call):
 def exam_schedule_buttons():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
 	markup.add(
-		telebot.types.InlineKeyboardButton('СПК',
+		telebot.types.InlineKeyboardButton('СПО',
 			url=messages.EXAM_SCHEDULE_LINK_SPK),
 		telebot.types.InlineKeyboardButton('Бакалавриат/специалитет очно',
 			url=messages.EXAM_SCHEDULE_LINK_BAC_SPEC_O),
@@ -92,7 +98,7 @@ def list_training_areas_callback(call):
 def list_training_areas_buttons():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
 	markup.add(
-			telebot.types.InlineKeyboardButton('СПК',
+			telebot.types.InlineKeyboardButton('СПО',
 				url=messages.LIST_TRAINING_AREAS_LINK_SPK),
 			telebot.types.InlineKeyboardButton('Бакалавриат',
 				url=messages.LIST_TRAINING_AREAS_LINK_BAC),
@@ -116,7 +122,7 @@ def main_date_callback(call):
 def main_date_buttons():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
 	markup.add(
-			telebot.types.InlineKeyboardButton('СПК',
+			telebot.types.InlineKeyboardButton('СПО',
 				url=messages.MAIN_DATE_SPK),
 			telebot.types.InlineKeyboardButton('Бакалавриат/Специалитет',
 				url=messages.MAIN_DATE_BAC_SPEC),
@@ -140,7 +146,7 @@ def documents_buttons():
 	markup.add(telebot.types.InlineKeyboardButton('Бакалавриат/специалитет', callback_data='documents_for_admission_bac'),
 	telebot.types.InlineKeyboardButton('Магистратура', callback_data='documents_for_admission_mag'),
 	telebot.types.InlineKeyboardButton('Аспирантура', callback_data='documents_for_admission_asp'),
-	telebot.types.InlineKeyboardButton('СПК', callback_data='documents_for_admission_spk'),
+	telebot.types.InlineKeyboardButton('СПО', callback_data='documents_for_admission_spk'),
 	telebot.types.InlineKeyboardButton('Назад', callback_data='information_about_admission_commission'))
 	return markup
 
