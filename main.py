@@ -16,8 +16,8 @@ def start(message):
 
 def main_menu():
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
-    markup.add(telebot.types.InlineKeyboardButton(messages.INFORMATION_ABOUT_ADMISSION_COMMISSION, callback_data='information_about_admission_commission'),
-               telebot.types.InlineKeyboardButton(messages.INFORMATION_ABOUT_CURRENT_POSITION_IN_RATING, callback_data='information_about_current_position_in_rating'))
+    markup.add(telebot.types.InlineKeyboardButton(messages.INFORMATION_ABOUT_ADMISSION_COMMISSION, callback_data='information_about_admission_commission'))
+               # telebot.types.InlineKeyboardButton(messages.INFORMATION_ABOUT_CURRENT_POSITION_IN_RATING, callback_data='information_about_current_position_in_rating'))
     return markup
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('information_about_admission_commission'))
@@ -143,10 +143,10 @@ def documents_callback(call):
 
 def documents_buttons():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
-	markup.add(telebot.types.InlineKeyboardButton('Бакалавриат/специалитет', callback_data='documents_for_admission_bac'),
-	telebot.types.InlineKeyboardButton('Магистратура', callback_data='documents_for_admission_mag'),
-	telebot.types.InlineKeyboardButton('Аспирантура', callback_data='documents_for_admission_asp'),
-	telebot.types.InlineKeyboardButton('СПО', callback_data='documents_for_admission_spk'),
+	markup.add(telebot.types.InlineKeyboardButton('Бакалавриат/специалитет', callback_data='bac_documents_for_admission'),
+	telebot.types.InlineKeyboardButton('Магистратура', callback_data='mag_documents_for_admission'),
+	telebot.types.InlineKeyboardButton('Аспирантура', callback_data='asp_documents_for_admission'),
+	telebot.types.InlineKeyboardButton('СПО', callback_data='spk_documents_for_admission'),
 	telebot.types.InlineKeyboardButton('Назад', callback_data='information_about_admission_commission'))
 	return markup
 
@@ -154,22 +154,22 @@ def documents_buttons():
 # def cost_of_study_callback(call):
 # 	analytics.function_call_statistics(call.message.chat.id, messages.CALLBACK_BUTTON_COST_OF_STUDY)
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission_bac'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith('bac_documents_for_admission'))
 def bac_documents(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                           text=messages.DOCUMENTS_FOR_ADMISSION_BAC, reply_markup=create_button_one_back())
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission_mag'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith('mag_documents_for_admission'))
 def mag_documents(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                           text=messages.DOCUMENTS_FOR_ADMISSION_MAG, reply_markup=create_button_one_back())
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission_asp'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith('asp_documents_for_admission'))
 def asp_documents(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                           text=messages.DOCUMENTS_FOR_ADMISSION_ASP, reply_markup=create_button_one_back())
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('documents_for_admission_spk'))
+@bot.callback_query_handler(func=lambda call: call.data.startswith('spk_documents_for_admission'))
 def spk_documents(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
                           text=messages.DOCUMENTS_FOR_ADMISSION_SPK, parse_mode='Markdown', reply_markup=create_button_one_back())
