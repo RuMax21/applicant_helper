@@ -2,13 +2,14 @@ import sqlite3
 import hashlib
 import datetime
 
-def adding_new_user(username):
+def adding_new_user(user_id, username):
+	user_id = hashing_of_name(user_id)
 	username = hashing_of_name(username)
 	with sqlite3.connect('db/analytics_db.db') as db:
 		cursor = db.cursor()
  
 		if not(is_user_checking(username)):
-			cursor.execute(f"INSERT INTO users (name_of_user, is_admin) VALUES('{username}', 'False')")
+			cursor.execute(f"INSERT INTO users (name_of_user, username, is_admin) VALUES('{user_id}', '{username}', 'False')")
 
 
 def is_user_checking(username):
@@ -22,13 +23,24 @@ def is_user_checking(username):
 		else:
 			return False
 
+def is_username_checking(username):
+	with sqlite3.connect('db/analytics_db.db') as db:
+		cursor = db.cursor()
+		cursor.execute(f"SELECT username FROM users WHERE username = '{username}'")
+		result = cursor.fetchall()
+		
+		if result:
+			return True
+		else:
+			return False
+
 def user_is_admin(username):
 	with sqlite3.connect('db/analytics_db.db') as db:
 		cursor = db.cursor()
 		cursor.execute(f"SELECT is_admin FROM users WHERE name_of_user = '{username}'")
 		result = cursor.fetchall()
 		print(result[0][0], "2")
-		if result[0][0] == "FALSE":
+		if result[0][0].upper() == "FALSE":
 			return False
 		else:
 			return True
@@ -97,3 +109,8 @@ def find_date_in_db(date):
 			return result[0]
 		else:
 			return False
+
+def get_admin(username):
+	with sqlite3.connect('db/analytics_db.db') as db:
+		cursor = db.cursor()
+		cursor.execute(f"UPDATE users SET is_admin = '{True}' WHERE username = '{username}'")

@@ -25,7 +25,7 @@ def main_menu():
 		telebot.types.InlineKeyboardButton('Общие количество запросов', callback_data=messages.CALLBACK_BUTTON_TOTAL_REQUESTS),
 		telebot.types.InlineKeyboardButton('Статистика запросов по дате', callback_data=messages.CALLBACK_BUTTON_REQUESTS_OF_DATE),
 		telebot.types.InlineKeyboardButton('Количество пользователей', callback_data=messages.CALLBACK_BUTTON_NUMBER_OF_USERS),
-		telebot.types.InlineKeyboardButton('Выдать права на просмотр', callback_data='number_of_users'),
+		telebot.types.InlineKeyboardButton('Выдать права на просмотр', callback_data=messages.CALLBACK_BUTTON_GIVE_OP)
 		)
 	return markup
 
@@ -79,6 +79,18 @@ def inputed_message(message):
 			, reply_markup=markup)
 	else:
 		bot.send_message(message.chat.id, 'Дата отсутствует в базе!!', reply_markup=markup)
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_GIVE_OP))
+def give_op_callback(call):
+	msg = bot.send_message(call.message.chat.id, 'Введите "username" пользователя')
+	bot.register_next_step_handler(msg, user_for_op)
+
+def user_for_op(message):
+	is_username = db_management.hashing_of_name(message.text)
+	if(is_username):
+		db_management.get_admin(db_management.hashing_of_name(message.text))
+	else:
+		bot.send_message(message.chat.id, 'Пользователь отсутствует в базе!!', reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('btn_back'))
 def button_back(call):
