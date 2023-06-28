@@ -1,5 +1,6 @@
 import sqlite3
 import hashlib
+import datetime
 
 def adding_new_user(username):
 	username = hashing_of_name(username)
@@ -66,4 +67,33 @@ def update_statistics(username, command_name):
 
 			cursor.execute(f"UPDATE users SET '{command_name}' = '{get_value(username, command_name)}' + 1 WHERE name_of_user = '{hashing_of_name(str(username))}'")
 
+def get_value_date(date, action):
+	with sqlite3.connect('db/analytics_db.db') as db:
+		cursor = db.cursor()
+		cursor.execute(f"SELECT {action} FROM date_of_action WHERE date_action = '{date}'")
+		result = cursor.fetchall()
+		return result[0][0]
 
+def date_of_action(date, action):
+	was_find = True
+	with sqlite3.connect('db/analytics_db.db') as db:
+		cursor = db.cursor()
+		cursor.execute(f"SELECT date_action FROM date_of_action")
+		result = cursor.fetchall()
+		for i in result:
+			if (str(date) == i[0]):
+				was_find = False
+				cursor.execute(f"UPDATE date_of_action SET '{action}' = '{get_value_date(date, action)}' + 1 WHERE date_action = '{date}'")
+				break
+		if was_find:
+			cursor.execute(f"INSERT INTO date_of_action (date_action, '{action}') VALUES('{date}', 1)")
+
+def find_date_in_db(date):
+	with sqlite3.connect('db/analytics_db.db') as db:
+		cursor = db.cursor()
+		cursor.execute(f"SELECT * FROM date_of_action WHERE date_action = '{date}'")
+		result = cursor.fetchall()
+		if(len(result) != 0):
+			return result[0]
+		else:
+			return False

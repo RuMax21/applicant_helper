@@ -157,7 +157,7 @@ def documents_buttons():
 @bot.callback_query_handler(func=lambda call: call.data.startswith('bac_documents_for_admission'))
 def bac_documents(call):
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                          text=messages.DOCUMENTS_FOR_ADMISSION_BAC, reply_markup=create_button_one_back())
+                          text=messages.DOCUMENTS_FOR_ADMISSION_BAC, parse_mode='Markdown', reply_markup=create_button_one_back())
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('mag_documents_for_admission'))
 def mag_documents(call):

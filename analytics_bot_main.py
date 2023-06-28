@@ -23,6 +23,7 @@ def main_menu():
 	markup = telebot.types.InlineKeyboardMarkup(row_width=1)
 	markup.add(
 		telebot.types.InlineKeyboardButton('Общие количество запросов', callback_data=messages.CALLBACK_BUTTON_TOTAL_REQUESTS),
+		telebot.types.InlineKeyboardButton('Статистика запросов по дате', callback_data=messages.CALLBACK_BUTTON_REQUESTS_OF_DATE),
 		telebot.types.InlineKeyboardButton('Количество пользователей', callback_data=messages.CALLBACK_BUTTON_NUMBER_OF_USERS),
 		telebot.types.InlineKeyboardButton('Выдать права на просмотр', callback_data='number_of_users'),
 		)
@@ -56,6 +57,28 @@ def create_button_back():
 		telebot.types.InlineKeyboardButton('Назад', callback_data='btn_back')
 	)
 	return markup
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_REQUESTS_OF_DATE))
+def requests_of_date_callback(call):
+	msg = bot.send_message(call.message.chat.id, 'Введите дату в формате yyyy-mm-dd:')
+	bot.register_next_step_handler(msg, inputed_message)
+
+def inputed_message(message):
+	answer_for_user = db_management.find_date_in_db(message.text)
+	markup=create_button_back()
+	if answer_for_user != False:
+		bot.send_message(message.chat.id, 
+			f"Информация по дате '{message.text}':\n"
+			f"Часы работы: '{answer_for_user[2]}' \n"
+			f"Способы подачи: '{answer_for_user[3]}' \n"
+			f"Перечень документов: '{answer_for_user[4]}' \n"
+			f"Документы для поступления: '{answer_for_user[5]}' \n"
+			f"Расписание: '{answer_for_user[6]}' \n"
+			f"Важные даты: '{answer_for_user[7]}' \n"
+			f"Стоимость обучения: '{answer_for_user[8]}' \n"
+			, reply_markup=markup)
+	else:
+		bot.send_message(message.chat.id, 'Дата отсутствует в базе!!', reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('btn_back'))
 def button_back(call):
