@@ -82,13 +82,16 @@ def inputed_message(message):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith(messages.CALLBACK_BUTTON_GIVE_OP))
 def give_op_callback(call):
-	msg = bot.send_message(call.message.chat.id, 'Введите "username" пользователя')
+	msg = bot.send_message(call.message.chat.id, 'Введите username пользователя')
 	bot.register_next_step_handler(msg, user_for_op)
 
 def user_for_op(message):
-	is_username = db_management.hashing_of_name(message.text)
+	is_username = db_management.is_username_checking(db_management.hashing_of_name(message.text))
+	print(is_username)
+	markup=create_button_back()
 	if(is_username):
 		db_management.get_admin(db_management.hashing_of_name(message.text))
+		bot.send_message(message.chat.id, f"Пользователю {'@'+message.text} были выданы права на просмотр!!", reply_markup=markup)
 	else:
 		bot.send_message(message.chat.id, 'Пользователь отсутствует в базе!!', reply_markup=markup)
 
