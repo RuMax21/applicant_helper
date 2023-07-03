@@ -17,7 +17,7 @@ def is_user_checking(username):
 		cursor = db.cursor()
 		cursor.execute(f"SELECT name_of_user FROM users WHERE name_of_user = '{username}'")
 		result = cursor.fetchall()
-		
+		print("is user" + " " + result)
 		if result:
 			return True
 		else:
@@ -28,7 +28,7 @@ def is_username_checking(username):
 		cursor = db.cursor()
 		cursor.execute(f"SELECT username FROM users WHERE username = '{username}'")
 		result = cursor.fetchall()
-		
+		print("is username" + " " + result)
 		if result:
 			return True
 		else:
@@ -39,11 +39,13 @@ def user_is_admin(username):
 		cursor = db.cursor()
 		cursor.execute(f"SELECT is_admin FROM users WHERE name_of_user = '{username}'")
 		result = cursor.fetchall()
-		print(result[0][0], "2")
-		if result[0][0].upper() == "FALSE":
-			return False
+		if len(result) != 0:
+			if result[0][0].upper() == "FALSE":
+				return False
+			else:
+				return True
 		else:
-			return True
+			return False
 
 def hashing_of_name(username):
 	return ( (hashlib.md5(username.encode())).hexdigest() )

@@ -4,7 +4,7 @@ import datetime
 def analytics(func: callable):
 	def analytics_wrapper(message):
 		
-		if not (db_management.is_user_checking(str(message.chat.id))):
+		if not (db_management.is_user_checking(db_management.hashing_of_name(str(message.chat.id)))):
 			db_management.adding_new_user(str(message.chat.id), str(message.from_user.username))
 		return func(message)
 
