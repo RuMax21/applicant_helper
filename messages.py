@@ -21,6 +21,8 @@ IN_ELECTRONIC_FORM = '📧 В электронной форме 📧'
 IN_ELECTRONIC_FORM_LINK = "https://cchgeu.ru/abiturientu/bak-spec/podacha-dokumentov/v-elektronnoy-forme/"
 TEXT_BUTTON_BACK = '🔙 Назад'
 
+REPLY_TO_MESSAGE = 'Для начала работы нажмите на \n👉/start👈\n'
+
 EXAM_SCHEDULE_LINK_SPK = "https://cchgeu.ru/abiturientu/spo/vstupitelnye-ispytaniya/raspisanie/"
 EXAM_SCHEDULE_LINK_BAC_SPEC_O = "https://cchgeu.ru/abiturientu/bak-spec/vstupitelnye-ispytaniya/raspisanie/"
 EXAM_SCHEDULE_LINK_BAC_SPEC_ZO = "https://cchgeu.ru/abiturientu/bak-spec/vstupitelnye-ispytaniya/raspisanie-zo/"

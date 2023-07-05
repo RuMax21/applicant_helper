@@ -17,7 +17,6 @@ def is_user_checking(username):
 		cursor = db.cursor()
 		cursor.execute(f"SELECT name_of_user FROM users WHERE name_of_user = '{username}'")
 		result = cursor.fetchall()
-		print("is user" + " " + result)
 		if result:
 			return True
 		else:
@@ -28,7 +27,6 @@ def is_username_checking(username):
 		cursor = db.cursor()
 		cursor.execute(f"SELECT username FROM users WHERE username = '{username}'")
 		result = cursor.fetchall()
-		print("is username" + " " + result)
 		if result:
 			return True
 		else:

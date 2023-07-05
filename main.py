@@ -215,4 +215,8 @@ def create_button_one_back():
 		)
 	return markup
 
+@bot.message_handler()
+def send_text(message):
+    bot.send_message(message.chat.id, messages.REPLY_TO_MESSAGE)
+
 bot.polling(none_stop=True, interval=0)

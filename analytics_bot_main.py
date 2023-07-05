@@ -10,7 +10,6 @@ bot = telebot.TeleBot(config.TOKEN_ANALYTICS)
 @bot.message_handler(commands=['start'])
 def start(message):
 	try:
-		print(db_management.user_is_admin(db_management.hashing_of_name(str(message.chat.id))))
 		if (db_management.is_user_checking(db_management.hashing_of_name(str(message.chat.id)))) & db_management.user_is_admin(db_management.hashing_of_name(str(message.chat.id))):
 			markup = main_menu()
 			bot.send_message(message.chat.id, 'Какая информация Вас интересует?', reply_markup=markup)
@@ -87,7 +86,6 @@ def give_op_callback(call):
 
 def user_for_op(message):
 	is_username = db_management.is_username_checking(db_management.hashing_of_name(message.text))
-	print(is_username)
 	markup=create_button_back()
 	if(is_username):
 		db_management.get_admin(db_management.hashing_of_name(message.text))
